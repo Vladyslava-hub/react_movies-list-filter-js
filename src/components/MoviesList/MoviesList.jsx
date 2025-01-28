@@ -1,10 +1,15 @@
-import './MoviesList.scss';
-import { MovieCard } from '../MovieCard';
+import React from 'react';
 
-export const MoviesList = ({ movies }) => (
-  <div className="movies">
-    {movies.map(movie => (
-      <MovieCard key={movie.imdbId} movie={movie} />
+const MoviesList = ({ movies }) => (
+  <ul>
+    {movies.map((movie, index) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <li key={index}>
+        <h3>{movie.title}</h3>
+        <p>{movie.description}</p>
+      </li>
     ))}
-  </div>
+  </ul>
 );
+
+export default MoviesList;

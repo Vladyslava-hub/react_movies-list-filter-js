@@ -1,39 +1,32 @@
 import React, { useState } from 'react';
-import './App.scss';
-import { MoviesList } from './components/MoviesList';
-import moviesFromServer from './api/movies.json';
+import MoviesList from './components/MoviesList';
 
-export const App = () => {
+const App = () => {
   const [query, setQuery] = useState('');
 
-  const visibleMovies = moviesFromServer.filter(movie => {
-    const normalizedQuery = query.trim().toLowerCase();
+  const movies = [
+    { title: 'Inception', description: 'A mind-bending thriller.' },
+    { title: 'Interstellar', description: 'Exploration of space and time.' },
+    { title: 'The Dark Knight', description: 'A tale of a superhero.' },
+  ];
 
-    return (
-      movie.title.toLowerCase().includes(normalizedQuery) ||
-      movie.description.toLowerCase().includes(normalizedQuery)
-    );
-  });
-
-  const handleInputChange = event => {
-    setQuery(event.target.value);
-  };
+  const visibleMovies = movies.filter(movie =>
+    [movie.title, movie.description].some(field =>
+      // eslint-disable-next-line prettier/prettier
+      field.toLowerCase().includes(query.trim().toLowerCase())));
 
   return (
     <div className="App">
-      <h1>Movies</h1>
-
-      <div className="filter">
-        <input
-          type="text"
-          className="filter__input"
-          placeholder="Search movies..."
-          value={query}
-          onChange={handleInputChange}
-        />
-      </div>
-
+      <input
+        type="text"
+        id="search-query"
+        placeholder="Search for movies..."
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+      />
       <MoviesList movies={visibleMovies} />
     </div>
   );
 };
+
+export default App;

@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import 'bulma/css/bulma.css';
-import React from 'react';
-import App from './App';
+
+// eslint-disable-next-line import/named
+import { App } from './App';
 
 createRoot(document.getElementById('root')).render(<App />);

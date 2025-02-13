@@ -1,26 +1,39 @@
 import React, { useState } from 'react';
-import moviesFromJson from './api/movies.json';
-import { MoviesList } from './components/MoviesList';
+import moviesFromServer from './api/movies.json';
 
 export const App = () => {
   const [query, setQuery] = useState('');
 
-  const visibleMovies = moviesFromJson.filter(
-    movie =>
-      movie.title.toLowerCase().includes(query.toLowerCase().trim()) ||
-      movie.description.toLowerCase().includes(query.toLowerCase().trim()),
-  );
+  const visibleMovies = moviesFromServer.filter(({ title, description }) => {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    return (
+      title.toLowerCase().includes(normalizedQuery) ||
+      description.toLowerCase().includes(normalizedQuery)
+    );
+  });
 
   return (
     <div className="app">
-      <h1>Movies List</h1>
       <input
+        id="search-query"
         type="text"
-        placeholder="Search for a movie..."
+        placeholder="Search..."
         value={query}
-        onChange={e => setQuery(e.target.value)}
+        onChange={event => setQuery(event.target.value)}
       />
       <MoviesList movies={visibleMovies} />
     </div>
   );
 };
+
+const MoviesList = ({ movies }) => (
+  <div className="movies-list">
+    {movies.map(({ id, title, description }) => (
+      <div key={id} className="card">
+        <h2 className="title">{title}</h2>
+        <p>{description}</p>
+      </div>
+    ))}
+  </div>
+);
